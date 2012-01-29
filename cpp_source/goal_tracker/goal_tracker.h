@@ -9,12 +9,28 @@
 
 #include <boost/shared_ptr.hpp>
 #include <alcommon/almodule.h>
+
 #include <string>
+#include <vector>
+#include <map>
+#include <algorithm>
+
+#include <cv.h>
+#include <highgui.h>
+#include <math.h>
+
+using namespace std;
+using namespace AL;
 
 namespace AL
 {
   class ALBroker;
 }
+
+typedef struct tuple {
+    double first;
+    double second;
+} tuple;
 
 class goal_tracker : public AL::ALModule
 {
@@ -30,6 +46,11 @@ class goal_tracker : public AL::ALModule
      * a vector of floats, and so on.
      */
     AL::ALValue echo(const AL::ALValue& foo);
+    IplImage* markGoalCV(IplImage* im, string color);
+    double calcXangle(int xcoord);
+    tuple run(IplImage* image, double yawHead, string color);
+    string track(const string& im_string, const int& size_x, const int& size_y,
+            const double& yawHead, const string& color);
 };
 
 #endif  // GOAL_TRACKER_GOAL_TRACKER_H
