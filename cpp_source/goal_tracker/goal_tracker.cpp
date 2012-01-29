@@ -295,8 +295,8 @@ tuple goal_tracker::run(IplImage* image, double yawHead, string color)
     }
 }
 
-string track(const string& im_string, const int& size_x, const int& size_y,
-        const double& yawHead, const string& color)
+string goal_tracker::track(const string& im_string, const int& size_x, 
+        const int& size_y, const double& yawHead, const string& color)
 {
     // reconstructing the OpenCV image
     IplImage* img = cvCreateImageHeader(cvSize(size_x, size_y), cvIplDepth(8u), 3);
