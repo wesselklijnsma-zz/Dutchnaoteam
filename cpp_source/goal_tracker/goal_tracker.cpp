@@ -10,6 +10,7 @@
 #include <alvalue/alvalue.h>
 #include <alcommon/alproxy.h>
 #include <alcommon/albroker.h>
+#include <iostream>
 
 using namespace std;
 using namespace AL;
@@ -110,6 +111,7 @@ double goal_tracker::calcXangle(int xcoord)
      * the image being 0 degrees
      */
 
+
     int width = 160;
     int height = 120;
 
@@ -207,6 +209,14 @@ tuple goal_tracker::run(IplImage* image, double yawHead, string color)
       sortedlines.push_back(it->first);
     }
 
+    // no goal found
+    if (sortedlines.size() <= 1) {
+        tuple nope;
+        nope.first = 0;
+        nope.second = 0;
+        return nope;
+    }
+
     sort(sortedlines.begin(), sortedlines.end());
 
     string currentBlob = "empty";
@@ -293,9 +303,14 @@ tuple goal_tracker::run(IplImage* image, double yawHead, string color)
 
         return ret;
     }
+
+    tuple nope;
+    nope.first = 0;
+    nope.second = 0;
+    return nope;
 }
 
-string goal_tracker::track(const string& im_string, const int& size_x, 
+AL::ALValue goal_tracker::track(const string& im_string, const int& size_x, 
         const int& size_y, const double& yawHead, const string& color)
 {
     // reconstructing the OpenCV image
@@ -316,5 +331,5 @@ string goal_tracker::track(const string& im_string, const int& size_x,
     sstr << goal.second;
     string ret = sstr.str();
 
-    return ret;
+    return AL::ALValue(ret);
 }
