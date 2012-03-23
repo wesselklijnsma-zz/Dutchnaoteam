@@ -17,10 +17,16 @@ memProxy = ALProxy("ALMemory", "127.0.0.1", 9559)
 # use the bottom Camera
 vidProxy.setParam(18, 1)
 vidProxy.startFrameGrabber()
-vidProxy.unsubscribe("python_GVM")
+unsubscribe()
+
+def unsubscribe():
+    try:
+        cam.unsubscribe("python_GVM")
+    except:
+        pass
 
 def subscribe():
-    vidProxy.unsubscribe("python_GVM")
+    unsubscribe()
     # subscribe(gvmName, resolution={0,1,2}, colorSpace={0,9,10,11,12,13},
     #           fps={5,10,15,30}
     return vidProxy.subscribe("python_GVM", 0, 11, 30)
